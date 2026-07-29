@@ -3,19 +3,23 @@
 
 html,
 body,
-#root,
-.app,
-.content{
-  height: 100%;
+#root {
+  margin: 0;
   width: 100%;
-  font-family: 'Source Sans 3', sans-serif;
-
+  min-height: 100%;
+  font-family: "Source Sans 3", sans-serif;
 }
 
-.app{
+.app {
   display: flex;
   position: relative;
+  min-height: 100vh;
+  width: 100%;
+}
 
+.content {
+  flex: 1;
+  min-width: 0;
 }
 
 ::-webkit-scrollbar {
