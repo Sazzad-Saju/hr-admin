@@ -11,7 +11,6 @@ const BarChart = ({ isDashboard = false }) => {
 
 
     return (
-        <Box sx={{ width: "100%", height: "500px" }}>
             <ResponsiveBar
                 data={mockBarData}
                 keys={["hot dog", "burger", "kebab", "donut"]}
@@ -69,7 +68,6 @@ const BarChart = ({ isDashboard = false }) => {
                     },
                 ]}
             />
-        </Box>
     )
 }
 

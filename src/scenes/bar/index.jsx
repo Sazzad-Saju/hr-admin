@@ -6,7 +6,7 @@ const Bar = () => {
     return (
         <Box sx={{ m: "20px" }}>
             <Header title="BAR CHART" subtitle="Simple Bar Chart" />
-            <Box height="75vh">
+            <Box sx={{ height: "75vh" }}>
                 <BarChart />
             </Box>
         </Box>
