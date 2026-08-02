@@ -8,13 +8,6 @@ const LineChart = ({ isDashboard = false }) => {
     const colors = tokens(theme.palette.mode);
 
     return (
-        <Box
-            sx={{
-                width: "100%",
-                height: "500px",
-                minWidth: 0,
-            }}
-        >
             <ResponsiveLine /* or Line for fixed dimensions */
                 data={data}
                 theme={{
@@ -83,7 +76,6 @@ const LineChart = ({ isDashboard = false }) => {
                     }
                 ]}
             />
-        </Box>
     );
 };
 
