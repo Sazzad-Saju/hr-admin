@@ -7,7 +7,6 @@ import Header from "../../components/Header";
 const Invoices = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const pageBackground = theme.palette.background.default;
 
     const columns = [
         { field: "id", headerName: "ID" },
@@ -77,10 +76,6 @@ const Invoices = () => {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                        },
-
-                        "& .MuiDataGrid-cell": {
-                            borderBottom: "none",
                         },
 
                         "& .name-column--cell": {

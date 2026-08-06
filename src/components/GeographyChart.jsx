@@ -1,6 +1,6 @@
 import { ResponsiveChoropleth } from "@nivo/geo";
 import { tokens } from "../theme";
-import { Box, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import { geoFeatures } from "../data/mocGeoFeatures";
 import { mockGeographyData as data } from "../data/mocData";
 
@@ -9,7 +9,6 @@ const GeographyChart = ({ isDashboard = false }) => {
     const colors = tokens(theme.palette.mode);
 
     return (
-        // <Box sx={{ width: "100%", height: "660px" }}>
             <ResponsiveChoropleth /* or Choropleth for fixed dimensions */
                 data={data}
                 theme={{
@@ -76,7 +75,6 @@ const GeographyChart = ({ isDashboard = false }) => {
                         ]
                     },] : undefined}
             />
-        // </Box>
     )
 }
 

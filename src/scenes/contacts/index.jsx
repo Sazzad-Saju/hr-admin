@@ -71,10 +71,6 @@ const Contacts = () => {
                             color: `${colors.grey[100]} !important`,
                         },
 
-                        "& .MuiDataGrid-cell": {
-                            borderBottom: "none",
-                        },
-
                         "& .name-column--cell": {
                             color: colors.greenAccent[300],
                         },

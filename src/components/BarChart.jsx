@@ -1,4 +1,4 @@
-import { Box, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
 import { tokens } from "../theme";
 import { mockBarData } from "../data/mocData";
@@ -12,7 +12,7 @@ const BarChart = ({ isDashboard = false }) => {
 
     return (
             <ResponsiveBar
-                data={mockBarData}
+                data={data}
                 keys={["hot dog", "burger", "kebab", "donut"]}
                 indexBy="country"
                 margin={{ top: 50, right: 130, bottom: 60, left: 60 }}

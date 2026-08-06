@@ -5,7 +5,7 @@ const ProgressCircle = ({ progress = "0.75", size = "40" }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const normalizedProgress = Math.min(Math.max(Number(progress), 0), 1);
-    const angle = progress * 360;
+    const angle = normalizedProgress * 360;
 
     return (
         <Box

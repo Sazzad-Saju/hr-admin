@@ -10,7 +10,6 @@ import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 const Team = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const pageBackground = theme.palette.background.default;
 
     const columns = [
         { field: "id", headerName: "ID" },
@@ -102,10 +101,6 @@ const Team = () => {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                        },
-
-                        "& .MuiDataGrid-cell": {
-                            borderBottom: "none",
                         },
 
                         "& .name-column--cell": {

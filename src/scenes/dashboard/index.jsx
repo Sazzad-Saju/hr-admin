@@ -12,7 +12,6 @@ import BarChart from "../../components/BarChart";
 import GeographyChart from "../../components/GeographyChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
-import { Bar } from "@nivo/bar";
 
 const Dashboard = () => {
     const theme = useTheme();
