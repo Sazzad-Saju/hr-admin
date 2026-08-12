@@ -297,7 +297,7 @@ const Dashboard = () => {
         }}
       >
         <Header
-          title="HR DASHBOARD"
+          title="SATTAR HR DASHBOARD"
           subtitle="Employee, leave and salary overview"
         />
 

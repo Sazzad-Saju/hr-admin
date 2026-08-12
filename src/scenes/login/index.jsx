@@ -162,10 +162,10 @@ const Login = () => {
                 justifyContent: "center",
 
                 background: `linear-gradient(
-          135deg,
-          ${colors.primary[500]} 0%,
-          ${colors.primary[400]} 100%
-        )`,
+                135deg,
+                ${colors.primary[500]} 0%,
+                ${colors.primary[400]} 100%
+                )`,
 
                 px: {
                     xs: 2,

@@ -54,18 +54,25 @@ const Sidebar = () => {
             sx={{
                 display: "flex",
                 height: "100vh",
+                position: "sticky",
+                top: 0,
+                alignSelf: "stretch",
+                overflow: "auto",
+                WebkitOverflowScrolling: "touch",
             }}
         >
             <ProSidebar
                 collapsed={isCollapsed}
                 backgroundColor={colors.primary[400]}
                 rootStyles={{
-                    height: "100vh",
-                    minHeight: "100vh",
+                    height: "100%",
+                    minHeight: "100%",
                     border: "none",
+                    overflow: "auto",
 
                     [`.${sidebarClasses.container}`]: {
-                        height: "100vh",
+                        height: "100%",
+                        overflow: "auto",
                     },
                 }}
             >
@@ -106,7 +113,7 @@ const Sidebar = () => {
                                 ml: "15px",
                             }}>
                                 <Typography variant="h3" color={colors.grey[100]}>
-                                    HR ADMIN
+                                    SATTAR HR
                                 </Typography>
                                 <IconButton>
                                     <MenuOutlinedIcon />
@@ -145,7 +152,7 @@ const Sidebar = () => {
                                     sx={{
                                         color: colors.greenAccent[500],
                                     }}>
-                                    Sattar Admin
+                                    SATTAR HR
                                 </Typography>
                             </Box>
                         </Box>
