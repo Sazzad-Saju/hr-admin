@@ -9,7 +9,6 @@ import {
     FormControlLabel,
     IconButton,
     InputAdornment,
-    Link,
     TextField,
     Typography,
     useTheme,
@@ -21,11 +20,11 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 
-import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import axios from "axios";
 
+import { useAuth } from "../../auth/AuthContext";
 import { tokens } from "../../theme";
 
 const validationSchema = yup.object({
@@ -46,11 +45,10 @@ const Login = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
+    const { login } = useAuth();
 
     const [showPassword, setShowPassword] = useState(false);
     const [serverError, setServerError] = useState("");
-
-    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
     const formik = useFormik({
         initialValues: {
@@ -65,95 +63,18 @@ const Login = () => {
             setServerError("");
 
             try {
-                if (!apiBaseUrl) {
-                    throw new Error(
-                        "REACT_APP_API_BASE_URL is not configured."
-                    );
-                }
-
-                const normalizedBaseUrl = apiBaseUrl.replace(/\/+$/, "");
-
-                /*
-                 * Expected endpoint:
-                 *
-                 * POST https://hr-api.sattarmetal.com.bd/api/login
-                 *
-                 * Example response:
-                 *
-                 * {
-                 *   "message": "Login successful",
-                 *   "token": "1|...",
-                 *   "user": {}
-                 * }
-                 */
-                const response = await axios.post(
-                    `${normalizedBaseUrl}/login`,
+                await login(
                     {
                         email: values.email.trim(),
                         password: values.password,
                     },
-                    {
-                        headers: {
-                            Accept: "application/json",
-                            "Content-Type": "application/json",
-                        },
-
-                        /*
-                         * Keep this enabled when using Laravel Sanctum
-                         * cookie authentication.
-                         */
-                        withCredentials: true,
-                    }
+                    values.remember
                 );
 
-                const responseData = response.data;
-
-                /*
-                 * Supports common Laravel token response names:
-                 *
-                 * token
-                 * access_token
-                 */
-                const token =
-                    responseData?.token ||
-                    responseData?.access_token ||
-                    null;
-
-                const storage = values.remember
-                    ? localStorage
-                    : sessionStorage;
-
-                if (token) {
-                    storage.setItem("auth_token", token);
-                }
-
-                if (responseData?.user) {
-                    storage.setItem(
-                        "auth_user",
-                        JSON.stringify(responseData.user)
-                    );
-                }
-
-                /*
-                 * Prevent old login data remaining in the other storage.
-                 */
-                const otherStorage = values.remember
-                    ? sessionStorage
-                    : localStorage;
-
-                otherStorage.removeItem("auth_token");
-                otherStorage.removeItem("auth_user");
-
-                /*
-                 * When a protected route redirects users to login,
-                 * it can pass:
-                 *
-                 * state={{ from: location }}
-                 *
-                 * After login, the user returns to that page.
-                 */
-                const redirectPath =
-                    location.state?.from?.pathname || "/";
+                const from = location.state?.from;
+                const redirectPath = from
+                    ? `${from.pathname}${from.search || ""}${from.hash || ""}`
+                    : "/";
 
                 navigate(redirectPath, {
                     replace: true,
@@ -178,7 +99,10 @@ const Login = () => {
                     setServerError(
                         "Please correct the highlighted fields."
                     );
-                } else if (error.response?.status === 401) {
+                } else if (
+                    error.response?.status === 401 ||
+                    error.response?.status === 422
+                ) {
                     setServerError(
                         error.response?.data?.message ||
                         "The provided email or password is incorrect."

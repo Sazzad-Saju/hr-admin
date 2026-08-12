@@ -7,7 +7,9 @@ import {
 } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../auth/AuthContext";
 import { tokens } from "../../theme";
+import { backendUrl } from "../../utils/backendUrl";
 
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
@@ -44,6 +46,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 const Sidebar = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const { admin } = useAuth();
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [selected, setSelected] = useState("Dashboard");
     return (
@@ -120,7 +123,10 @@ const Sidebar = () => {
                                     alt="profile-user"
                                     width="100px"
                                     height="100px"
-                                    src={`../../assets/anonymous.png`}
+                                    src={
+                                        backendUrl(admin?.photo_url) ||
+                                        "/assets/anonymous.png"
+                                    }
                                     style={{ cursor: "pointer", borderRadius: "50%" }}
                                 />
                             </Box>
@@ -133,7 +139,7 @@ const Sidebar = () => {
                                         mt: "10px",
                                     }}
                                 >
-                                    Joshef Smith
+                                    {admin?.name || "HR Administrator"}
                                 </Typography>
                                 <Typography variant="h5"
                                     sx={{
