@@ -14,7 +14,6 @@ import Bar from "./scenes/bar";
 import Pie from "./scenes/pie";
 import Line from "./scenes/line";
 import Geography from "./scenes/geography";
-import Register from "./scenes/register";
 import Login from "./scenes/login";
 
 const DashboardLayout = () => {
@@ -55,7 +54,6 @@ function App() {
         <Routes>
           <Route element={<AuthLayout />}>
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
           </Route>
 
           <Route element={<DashboardLayout />}>

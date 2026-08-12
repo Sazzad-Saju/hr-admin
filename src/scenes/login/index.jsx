@@ -274,26 +274,16 @@ const Login = () => {
                         mb: 3,
                     }}
                 >
-                    <Box
+                    <Box component="img"
+                        src="/assets/live_logo2.gif"
+                        alt="Company logo"
                         sx={{
-                            width: 72,
-                            height: 72,
-
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-
+                            width: 200,
+                            height: 200,
                             borderRadius: "50%",
-                            backgroundColor: colors.blueAccent[700],
-                            color: colors.grey[100],
-
-                            fontSize: "24px",
-                            fontWeight: 800,
-                            letterSpacing: "1px",
+                            objectFit: "cover",
                         }}
-                    >
-                        SM
-                    </Box>
+                    />
                 </Box>
 
                 <Typography
@@ -460,23 +450,6 @@ const Login = () => {
                                 },
                             }}
                         />
-
-                        <Link
-                            component={RouterLink}
-                            to="/forgot-password"
-                            underline="hover"
-                            sx={{
-                                color: colors.greenAccent[400],
-                                fontWeight: "600",
-                                fontSize: {
-                                    xs: "13px",
-                                    sm: "14px",
-                                },
-                                whiteSpace: "nowrap",
-                            }}
-                        >
-                            Forgot password?
-                        </Link>
                     </Box>
 
                     {/* Submit button */}
@@ -519,28 +492,6 @@ const Login = () => {
                             "Sign In"
                         )}
                     </Button>
-
-                    {/* Register link */}
-                    <Typography
-                        textAlign="center"
-                        color={colors.grey[300]}
-                        sx={{
-                            mt: 3,
-                        }}
-                    >
-                        Don&apos;t have an account?{" "}
-                        <Link
-                            component={RouterLink}
-                            to="/register"
-                            underline="hover"
-                            sx={{
-                                color: colors.greenAccent[400],
-                                fontWeight: "bold",
-                            }}
-                        >
-                            Create account
-                        </Link>
-                    </Typography>
                 </Box>
             </Box>
         </Box>
