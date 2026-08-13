@@ -191,27 +191,47 @@ const Team = () => {
       >
         <TextField
           size="small"
-          label="Search team by name"
+          placeholder="Search team by name"
           value={search}
           onChange={(event) => setSearch(event.target.value)}
-          sx={{ width: { xs: "100%", sm: 340 } }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: search ? (
-              <InputAdornment position="end">
-                <IconButton
-                  size="small"
-                  aria-label="Clear team search"
-                  onClick={() => setSearch("")}
-                >
-                  <ClearIcon fontSize="small" />
-                </IconButton>
-              </InputAdornment>
-            ) : null,
+          sx={{
+            width: { xs: "100%", sm: 340 },
+
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: colors.grey[100],
+              },
+              "&:hover fieldset": {
+                borderColor: colors.greenAccent[500],
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: colors.greenAccent[500],
+                borderWidth: "1px",
+              },
+            },
+          }}
+          slotProps={{
+            htmlInput: {
+              "aria-label": "Search team by name",
+            },
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+              endAdornment: search ? (
+                <InputAdornment position="end">
+                  <IconButton
+                    size="small"
+                    aria-label="Clear team search"
+                    onClick={() => setSearch("")}
+                  >
+                    <ClearIcon fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              ) : null,
+            },
           }}
         />
 

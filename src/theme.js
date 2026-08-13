@@ -128,6 +128,9 @@ export const themeSettings = (mode) => {
     return {
         palette: {
             mode: mode,
+            DataGrid: {
+                headerBg: colors.blueAccent[700],
+            },
             ...(mode === "dark"
                 ? {
                     primary: {

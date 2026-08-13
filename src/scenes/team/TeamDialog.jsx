@@ -93,17 +93,18 @@ const TeamDialog = ({ open, team, onClose, onSave }) => {
         )}
 
         <TextField
-          autoFocus
           fullWidth
-          margin="normal"
-          id="name"
           name="name"
           label="Team Name"
           value={formik.values.name}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={formik.touched.name && Boolean(formik.errors.name)}
-          helperText={formik.touched.name && formik.errors.name}
+          error={Boolean(formik.touched.name && formik.errors.name)}
+          helperText={
+            formik.touched.name && formik.errors.name
+              ? formik.errors.name
+              : ""
+          }
           disabled={formik.isSubmitting}
         />
 
@@ -145,7 +146,11 @@ const TeamDialog = ({ open, team, onClose, onSave }) => {
       </DialogContent>
 
       <DialogActions sx={{ px: 3, pb: 3 }}>
-        <Button onClick={handleClose} disabled={formik.isSubmitting}>
+        <Button
+          onClick={handleClose}
+          disabled={formik.isSubmitting}
+          sx={{ color: "text.primary" }}
+        >
           Cancel
         </Button>
         <Button
