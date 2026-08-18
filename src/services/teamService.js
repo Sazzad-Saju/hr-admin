@@ -1,6 +1,6 @@
 import apiClient from "../api/apiClient";
 
-const TEAM_PATH = "/admin/teams";
+const TEAM_PATH = "teams";
 
 const teamService = {
   async list(params = {}) {
