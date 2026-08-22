@@ -1,10 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
-import { Alert, Box } from "@mui/material";
+import {
+    Alert,
+    Box,
+    TextField,
+    useTheme,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { getApiErrorMessage } from "../../utils/apiErrors";
+import { tokens } from "../../theme";
 
 import Header from "../../components/Header";
 import areaService from "../../services/areaService";
-import { getApiErrorMessage } from "../../utils/apiErrors";
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
 
 const columns = [
     {
@@ -34,29 +42,40 @@ const columns = [
 ];
 
 const Area = () => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    const [search, setSearch] = useState("");
     const [areas, setAreas] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
+    const [pageError, setPageError] = useState("");
 
-    const loadAreas = useCallback(async () => {
+    const loadAreas = useCallback(async (searchValue = "") => {
         setLoading(true);
-        setError("");
+        setPageError("");
 
-        try{
-            const response = await areaService.list();
-            setAreas(response.data.data ?? []);
-        } catch(error){
-            setError(
-                getApiErrorMessage(error, "Unable to load areas.")
+        try {
+            const response = await areaService.list({
+                search: searchValue.trim() || undefined,
+            });
+            setAreas(response.data ?? []);
+        } catch (error) {
+            setPageError(
+                getApiErrorMessage(error, "The areas could not be loaded.")
             );
-        } finally{
+        } finally {
             setLoading(false);
         }
     }, []);
 
     useEffect(() => {
-        loadAreas();
-    }, [loadAreas]);
+        const timeoutId = window.setTimeout(() => {
+            loadAreas(search);
+        }, 300);
+
+        return () => {
+            window.clearTimeout(timeoutId);
+        };
+    }, [loadAreas, search]);
 
     return (
         <Box sx={{ m: "20px" }}>
@@ -64,26 +83,59 @@ const Area = () => {
                 title="AREA MANAGEMENT"
                 subtitle="Create and manage employee areas"
             />
-            {error && (
-                <Alert severity="error" sx={{ mb:2 }}>
-                    {error}
+            {pageError && (
+                <Alert severity="error" sx={{ mb: 2 }} onClose={() => setPageError("")}>
+                    {pageError}
                 </Alert>
             )}
-            
-            <Box sx={{ height:500 }}>
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    mb: 2,
+                    gap: 2,
+                    alignItems: {xs: "stretch", sm: "center"},
+                    flexDirection: {xs: "column", sm: "row"},
+                }}
+            >
+                <TextField
+                    size="small"
+                    placeholder="Search area by name or code"
+                    value="search"
+                    onChange={(event) => setSearch(event.target.value)}
+                    sx={{ 
+                        width: { xs: "100%", sm: 340},
+
+                        "& .MuiOutlinedInput-root": {
+                            "& fieldSet": {
+                                borderColor: colors.grey[100],
+                            },
+                            "&:hover fieldset": {
+                                borderColor: colors.greenAccent[500],
+                            },
+                            "&.Mui-focused fieldset": {
+                                borderColor: colors.greenAccent[500],
+                                borderWidth: "1px",
+                            },
+                        },
+                    }}
+                />
+
+            </Box>
+            <Box sx={{ height: 500 }}>
                 <DataGrid
                     rows={areas}
                     columns={columns}
                     disableRowSelectionOnClick
-                    pageSizeOptions={[10,25,50]}
-                    initialState={{ 
+                    pageSizeOptions={[10, 25, 50]}
+                    initialState={{
                         pagination: {
                             paginationModel: {
                                 page: 0,
                                 pageSize: 10,
                             },
                         },
-                     }}
+                    }}
                 />
             </Box>
         </Box>
