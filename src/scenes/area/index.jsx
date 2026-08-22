@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
     Alert,
     Box,
+    Chip,
     TextField,
     useTheme,
 } from "@mui/material";
@@ -13,33 +14,6 @@ import Header from "../../components/Header";
 import areaService from "../../services/areaService";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
-
-const columns = [
-    {
-        field: "code",
-        headerName: "Code",
-        flex: 0.7,
-        minWidth: 120,
-    },
-    {
-        field: "name",
-        headerName: "Name",
-        flex: 1,
-        minWidth: 180,
-    },
-    {
-        field: "description",
-        headerName: "Description",
-        flex: 1,
-        minWidth: 240,
-    },
-    {
-        field: "status",
-        headerName: "Status",
-        flex: 0.6,
-        minWidth: 110,
-    },
-];
 
 const Area = () => {
     const theme = useTheme();
@@ -77,6 +51,45 @@ const Area = () => {
         };
     }, [loadAreas, search]);
 
+    const columns = useMemo(
+        () => [
+            {
+                field: "code",
+                headerName: "Code",
+                flex: 0.7,
+                minWidth: 150,
+                cellClassName: "name-column--cell",
+            },
+            {
+                field: "name",
+                headerName: "Name",
+                flex: 1,
+                minWidth: 180,
+            },
+            {
+                field: "description",
+                headerName: "Description",
+                flex: 1,
+                minWidth: 260,
+                valueGetter: (value) => value || "—",
+            },
+            {
+                field: "status",
+                headerName: "Status",
+                width: 130,
+                renderCell: ({ value }) => (
+                    <Chip
+                        size="small"
+                        label={value === "active" ? "Active" : "Inactive"}
+                        color={value === "active" ? "success" : "default"}
+                        variant={value === "active" ? "filled" : "outlined"}
+                    />
+                ),
+            },
+        ],
+        []
+    );
+
     return (
         <Box sx={{ m: "20px" }}>
             <Header
@@ -94,8 +107,8 @@ const Area = () => {
                     justifyContent: "space-between",
                     mb: 2,
                     gap: 2,
-                    alignItems: {xs: "stretch", sm: "center"},
-                    flexDirection: {xs: "column", sm: "row"},
+                    alignItems: { xs: "stretch", sm: "center" },
+                    flexDirection: { xs: "column", sm: "row" },
                 }}
             >
                 <TextField
@@ -103,8 +116,8 @@ const Area = () => {
                     placeholder="Search area by name or code"
                     value="search"
                     onChange={(event) => setSearch(event.target.value)}
-                    sx={{ 
-                        width: { xs: "100%", sm: 340},
+                    sx={{
+                        width: { xs: "100%", sm: 340 },
 
                         "& .MuiOutlinedInput-root": {
                             "& fieldSet": {
@@ -120,20 +133,40 @@ const Area = () => {
                         },
                     }}
                 />
-
             </Box>
-            <Box sx={{ height: 500 }}>
+            <Box sx={{ height: "65vh", minHeight: 430 }}>
                 <DataGrid
                     rows={areas}
                     columns={columns}
                     disableRowSelectionOnClick
                     pageSizeOptions={[10, 25, 50]}
+                    loading={loading}
                     initialState={{
                         pagination: {
                             paginationModel: {
                                 page: 0,
                                 pageSize: 10,
                             },
+                        },
+                    }}
+                    sx={{
+                        border: "none",
+                        backgroundColor: colors.primary[400],
+
+                        "& .MuiDataGrid-cell": {
+                            borderBottom: "none",
+                        },
+
+                        "& .MuiDataGrid-columnHeaders": {
+                            borderBottom: "none",
+                        },
+
+                        "& .MuiDataGrid-footerContainer": {
+                            borderTop: "none",
+                            backgroundColor: colors.blueAccent[700],
+                        },
+                        "& .name-column--cell": {
+                            color: colors.greenAccent[300],
                         },
                     }}
                 />
