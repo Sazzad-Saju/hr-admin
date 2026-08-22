@@ -1,20 +1,24 @@
-import api from "./api";
+import apiClient from "../api/apiClient";
 
 const areaService = {
-    getArea: (params = {}) => {
-        return api.get("/areas", { params });
+    async list(params = {}) {
+        const response = await apiClient.get("areas", { params });
+        return response.data;
     },
 
-    createArea: (data) => {
-        return api.post("/areas", data);
+    async create(payload) {
+        const response = await apiClient.post("areas", payload);
+        return response.data;
     },
 
-    updateArea: (id, data) => {
-        return api.put(`/areas/${id}`, data);
+    async update(id, payload) {
+        const response = await apiClient.put(`areas/${id}`, payload);
+        return response.data;
     },
 
-    deleteArea: (id) => {
-        return api.delete(`/areas/${id}`);
+    async remove(id) {
+        const response = await apiClient.delete(`areas/${id}`);
+        return response.data;
     },
 };
 
